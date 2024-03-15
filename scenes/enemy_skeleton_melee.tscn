@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://dykaky6htip5k"]
+[gd_scene load_steps=18 format=3 uid="uid://dykaky6htip5k"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_p0qju"]
 [ext_resource type="Texture2D" uid="uid://dio8303rc47gi" path="res://assets/Skeleton_Warrior/Run.png" id="1_y1vhw"]
 [ext_resource type="PackedScene" uid="uid://ctul0gxfri6vy" path="res://scenes/HurtBox.tscn" id="3_7icnn"]
 [ext_resource type="PackedScene" uid="uid://cs67o6wxegbku" path="res://scenes/HitBox.tscn" id="4_1om7y"]
+[ext_resource type="AudioStream" uid="uid://dd6wpqm83nysb" path="res://assets/Sounds/Audio/impactPunch_medium_004.ogg" id="5_46xuv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cmvqn"]
 atlas = ExtResource("1_y1vhw")
@@ -108,6 +109,9 @@ position = Vector2(-5, 37)
 shape = SubResource("RectangleShape2D_l63s0")
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_46xuv")
+volume_db = -2.0
+pitch_scale = 5.0
 
 [connection signal="hurt" from="HurtBox" to="." method="_on_hurt_box_hurt"]
 

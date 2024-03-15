@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://2c5ie70npveh"]
+
+[ext_resource type="Script" path="res://scenes/Item.gd" id="1_dmxjw"]
+[ext_resource type="Texture2D" uid="uid://dp43o32pmfa0r" path="res://assets/ice_spear.png" id="1_ymft0"]
+
+[node name="Item" type="ColorRect"]
+custom_minimum_size = Vector2(180, 50)
+anchors_preset = -1
+anchor_right = 0.281
+anchor_bottom = 0.139
+offset_right = 0.159988
+offset_bottom = -0.0400047
+color = Color(0.67451, 0.67451, 0.67451, 1)
+script = ExtResource("1_dmxjw")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 26.0
+offset_bottom = 26.0
+color = Color(0, 0, 0, 1)
+
+[node name="Icon" type="TextureRect" parent="ColorRect"]
+layout_mode = 0
+offset_right = 53.0
+offset_bottom = 53.0
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("1_ymft0")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 2.0
+offset_right = 86.0
+offset_bottom = 25.0
+theme_override_font_sizes/font_size = 12
+text = "Name"
+
+[node name="Desc" type="Label" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 26.0
+offset_right = 166.0
+offset_bottom = 47.0
+theme_override_font_sizes/font_size = 8
+text = "Description of Item"
+autowrap_mode = 3
+
+[node name="Level" type="Label" parent="."]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 3.0
+offset_right = 177.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 10
+text = "Level:1"
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

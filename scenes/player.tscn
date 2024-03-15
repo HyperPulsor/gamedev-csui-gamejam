@@ -1,9 +1,12 @@
-[gd_scene load_steps=22 format=3 uid="uid://c4u28tkf156wa"]
+[gd_scene load_steps=27 format=3 uid="uid://c4u28tkf156wa"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_ifkea"]
 [ext_resource type="Texture2D" uid="uid://clculek1m70jn" path="res://assets/Fire vizard/Idle.png" id="1_ukfyc"]
 [ext_resource type="Texture2D" uid="uid://f18anos7kfen" path="res://assets/Fire vizard/Walk.png" id="3_0c6pr"]
 [ext_resource type="PackedScene" uid="uid://ctul0gxfri6vy" path="res://scenes/HurtBox.tscn" id="4_jn6uc"]
+[ext_resource type="Texture2D" uid="uid://d1sbnp7pw8p3h" path="res://assets/GUI/exp_background.png" id="5_712si"]
+[ext_resource type="Texture2D" uid="uid://dxvuj6sukwosj" path="res://assets/GUI/exp_progress.png" id="6_tl6m8"]
+[ext_resource type="AudioStream" uid="uid://dsxgs07rcajdo" path="res://assets/Sounds/level-up-enhancement-8-bit-retro-sound-effect-153002.ogg" id="7_wdbxf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_53dcv"]
 atlas = ExtResource("1_ukfyc")
@@ -118,6 +121,12 @@ size = Vector2(9.5, 56)
 [sub_resource type="CircleShape2D" id="CircleShape2D_kg1hp"]
 radius = 401.045
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_kgyle"]
+radius = 69.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w5w03"]
+radius = 23.0
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_ifkea")
@@ -133,6 +142,7 @@ shape = SubResource("RectangleShape2D_yk71o")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="HurtBox" parent="." instance=ExtResource("4_jn6uc")]
+visible = false
 collision_mask = 2
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
@@ -150,6 +160,7 @@ unique_name_in_owner = true
 wait_time = 0.075
 
 [node name="DetectEnemyArea" type="Area2D" parent="."]
+visible = false
 position = Vector2(-16, 30)
 collision_layer = 4
 collision_mask = 4
@@ -159,10 +170,86 @@ monitorable = false
 position = Vector2(2, 1)
 shape = SubResource("CircleShape2D_kg1hp")
 
+[node name="GrabGemArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrabGemArea"]
+position = Vector2(-14, 27)
+shape = SubResource("CircleShape2D_kgyle")
+
+[node name="CollectArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectArea"]
+position = Vector2(-14, 27)
+shape = SubResource("CircleShape2D_w5w03")
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+
+[node name="ExpBar" type="TextureProgressBar" parent="GUI/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture_under = ExtResource("5_712si")
+texture_progress = ExtResource("6_tl6m8")
+
+[node name="LevelLabel" type="Label" parent="GUI/Control/ExpBar"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 540.0
+offset_right = 640.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 12
+text = "Level: 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelUp" type="Panel" parent="GUI/Control"]
+unique_name_in_owner = true
+process_mode = 2
+layout_mode = 0
+offset_left = 800.0
+offset_top = 50.0
+offset_right = 1000.0
+offset_bottom = 300.0
+
+[node name="LevelUpLabel" type="Label" parent="GUI/Control/LevelUp"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 50.0
+text = "Level Up!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UpgradeChoose" type="VBoxContainer" parent="GUI/Control/LevelUp"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 10.0
+offset_top = 50.0
+offset_right = 190.0
+offset_bottom = 100.0
+
+[node name="LevelUpSound" type="AudioStreamPlayer2D" parent="GUI/Control/LevelUp"]
+unique_name_in_owner = true
+stream = ExtResource("7_wdbxf")
+volume_db = -2.0
+pitch_scale = 3.0
+
 [connection signal="hurt" from="HurtBox" to="." method="_on_hurt_box_hurt"]
 [connection signal="timeout" from="Attack/IceSpearTimer" to="." method="_on_ice_spear_timer_timeout"]
 [connection signal="timeout" from="Attack/IceSpearTimer/IceSpearAttackTimer" to="." method="_on_ice_spear_attack_timer_timeout"]
 [connection signal="body_entered" from="DetectEnemyArea" to="." method="_on_detect_enemy_area_body_entered"]
 [connection signal="body_exited" from="DetectEnemyArea" to="." method="_on_detect_enemy_area_body_exited"]
+[connection signal="area_entered" from="GrabGemArea" to="." method="_on_grab_gem_area_area_entered"]
+[connection signal="area_entered" from="CollectArea" to="." method="_on_collect_area_area_entered"]
 
 [editable path="HurtBox"]

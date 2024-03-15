@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://pn8t3v7l3qkn"]
+
+[ext_resource type="Texture2D" uid="uid://dqk1uas5lmn8d" path="res://assets/Items/Gems/Gem_green.png" id="1_nlxon"]
+[ext_resource type="Script" path="res://scenes/gem.gd" id="1_wyanp"]
+[ext_resource type="AudioStream" uid="uid://bu1tnr84d4tsc" path="res://assets/Sounds/handleCoins2.ogg" id="3_7e216"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0psnd"]
+size = Vector2(17, 21)
+
+[node name="Gem" type="Area2D" groups=["loot"]]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_wyanp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_nlxon")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -1.5)
+shape = SubResource("RectangleShape2D_0psnd")
+
+[node name="CollectSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_7e216")
+volume_db = -1.0
+pitch_scale = 2.5
+
+[connection signal="finished" from="CollectSound" to="." method="_on_collect_sound_finished"]

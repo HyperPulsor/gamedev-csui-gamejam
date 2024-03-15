@@ -14,6 +14,7 @@ var angle = Vector2.ZERO
 signal remove_from_array(object)
 
 func _ready():
+	$Sound.play()
 	angle = global_position.direction_to(target)
 	rotation = angle.angle() + deg_to_rad(135)
 	match level:
