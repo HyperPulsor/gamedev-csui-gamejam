@@ -14,7 +14,11 @@ signal selected_upgrade(upgrade)
 func _ready():
 	connect("selected_upgrade",Callable(player,"upgrade_character"))
 	if item == null:
-		item = "food"
+		var random_int = randi_range(1,2)
+		if random_int == 1:
+			item = "shield"
+		else:
+			item = "food"
 	lblName.text = UpgradeDb.UPGRADES[item]["displayname"]
 	lblDescription.text = UpgradeDb.UPGRADES[item]["details"]
 	lblLevel.text = UpgradeDb.UPGRADES[item]["level"]

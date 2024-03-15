@@ -12,6 +12,8 @@ extends CharacterBody2D
 @onready var fireballTimer = get_node("%FireballTimer")
 @onready var fireballAttackTimer = get_node("%FireballAttackTimer")
 @onready var healthBar = get_node("%HealthBar")
+@onready var shieldLabel = get_node("%ShieldLabel")
+@onready var shieldTimer = $ShieldTimer
 
 @export var hp = 100
 @export var speed = 150
@@ -43,6 +45,7 @@ var speed_upgrade = 0
 var spell_cooldown = 0
 var spell_size = 0
 var additional_attacks = 0
+var isShielded = false
 
 func _ready():
 	attack()
@@ -94,10 +97,10 @@ func player_movement():
 
 
 func _on_hurt_box_hurt(damage, _angle, _knockback):
-	hp -= damage
-	healthBar.max_value = maxhp
-	healthBar.value = hp 
-
+	if not isShielded:
+		hp -= damage
+		healthBar.max_value = maxhp
+		healthBar.value = hp
 
 func _on_ice_spear_timer_timeout():
 	icespear_ammo += icespear_baseammo
@@ -234,6 +237,8 @@ func upgrade_character(upgrade):
 		"food":
 			hp += 20
 			hp = clamp(hp,0,maxhp)
+		"shield":
+			start_shield()
 	var options = upgradeChoose.get_children()
 	for i in options:
 		i.queue_free()
@@ -268,3 +273,13 @@ func get_random_upgrade():
 		return randomitem
 	else:
 		return null
+		
+
+func start_shield():
+	shieldTimer.start()
+	shieldLabel.text = "Shield Active!"
+	isShielded = true
+	
+func _on_shield_timer_timeout():
+	shieldLabel.text = ""
+	isShielded = false

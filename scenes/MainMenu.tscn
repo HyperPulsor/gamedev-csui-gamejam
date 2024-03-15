@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8ofmxox7cof0"]
+
+[ext_resource type="Script" path="res://scripts/MainMenu.gd" id="1_ywmww"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ywmww")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 641.0
+offset_bottom = 362.0
+color = Color(0.32549, 0.435294, 0.301961, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 178.0
+offset_top = 51.0
+offset_right = 468.0
+offset_bottom = 139.0
+theme_override_font_sizes/font_size = 30
+text = "Wizard Survivor"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 186.0
+offset_top = 178.0
+offset_right = 303.0
+offset_bottom = 267.0
+text = "Play"
+
+[node name="ExitButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 178.0
+offset_right = 467.0
+offset_bottom = 267.0
+text = "Exit"
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]

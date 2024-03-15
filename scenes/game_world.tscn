@@ -1,19 +1,44 @@
-[gd_scene load_steps=4 format=3 uid="uid://bur0iwyidf8w1"]
+[gd_scene load_steps=9 format=3 uid="uid://bur0iwyidf8w1"]
 
-[ext_resource type="Texture2D" uid="uid://ccb6kum7nmaqm" path="res://assets/dirt_full_new.png" id="1_ges7v"]
+[ext_resource type="Texture2D" uid="uid://xk2oqd5u76xa" path="res://assets/Tiles/tile_0028.png" id="1_cjajq"]
 [ext_resource type="PackedScene" uid="uid://c4u28tkf156wa" path="res://scenes/player.tscn" id="2_owyb4"]
 [ext_resource type="PackedScene" uid="uid://ci22w7ibaprq4" path="res://scenes/EnemySpawner.tscn" id="3_wj5mh"]
+[ext_resource type="PackedScene" uid="uid://dykaky6htip5k" path="res://scenes/enemy_skeleton_melee.tscn" id="4_ir8hb"]
+[ext_resource type="AudioStream" uid="uid://b3rlhpi1a63xi" path="res://assets/Sounds/Partys Cancelled - RoccoW Chiptune [No Copyright Music] [TubeRipper.cc].ogg" id="4_wyp16"]
+[ext_resource type="Script" path="res://scripts/spawn_info.gd" id="5_o5342"]
+
+[sub_resource type="Resource" id="Resource_55rf0"]
+script = ExtResource("5_o5342")
+time_start = 0
+time_end = 100
+enemy = ExtResource("4_ir8hb")
+enemy_num = 1
+enemy_spawn_delay = 0
+
+[sub_resource type="Resource" id="Resource_45psf"]
+script = ExtResource("5_o5342")
+time_start = 5
+time_end = 100
+enemy = ExtResource("4_ir8hb")
+enemy_num = 6
+enemy_spawn_delay = 10
 
 [node name="GameWorld" type="Node2D"]
 
 [node name="Background" type="Sprite2D" parent="."]
 texture_repeat = 2
-texture = ExtResource("1_ges7v")
+texture = ExtResource("1_cjajq")
 region_enabled = true
 region_rect = Rect2(-4000, -4000, 4000, 4000)
 
 [node name="Player" parent="." instance=ExtResource("2_owyb4")]
 
 [node name="EnemySpawner" parent="." instance=ExtResource("3_wj5mh")]
+spawns = Array[ExtResource("5_o5342")]([SubResource("Resource_55rf0"), SubResource("Resource_45psf")])
 
 [node name="Loot" type="Node2D" parent="." groups=["loot"]]
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_wyp16")
+volume_db = -20.0
+autoplay = true

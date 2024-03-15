@@ -211,6 +211,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture_under = ExtResource("5_712si")
 texture_progress = ExtResource("6_tl6m8")
+tint_progress = Color(0.0588235, 0.376471, 0.427451, 1)
 
 [node name="LevelLabel" type="Label" parent="GUI/Control/ExpBar"]
 unique_name_in_owner = true
@@ -234,6 +235,17 @@ scale = Vector2(2, 2)
 value = 50.0
 texture_under = ExtResource("8_b5kc7")
 texture_progress = ExtResource("9_mh3d2")
+
+[node name="ShieldLabel" type="Label" parent="GUI/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 301.0
+offset_top = 151.0
+offset_right = 341.0
+offset_bottom = 174.0
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="LevelUp" type="Panel" parent="GUI/Control"]
 unique_name_in_owner = true
@@ -268,6 +280,11 @@ pitch_scale = 3.0
 
 [node name="DamagedSound" type="AudioStreamPlayer" parent="."]
 
+[node name="ShieldTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.0
+one_shot = true
+
 [connection signal="hurt" from="HurtBox" to="." method="_on_hurt_box_hurt"]
 [connection signal="timeout" from="Attack/IceSpearTimer" to="." method="_on_ice_spear_timer_timeout"]
 [connection signal="timeout" from="Attack/IceSpearTimer/IceSpearAttackTimer" to="." method="_on_ice_spear_attack_timer_timeout"]
@@ -277,5 +294,6 @@ pitch_scale = 3.0
 [connection signal="body_exited" from="DetectEnemyArea" to="." method="_on_detect_enemy_area_body_exited"]
 [connection signal="area_entered" from="GrabGemArea" to="." method="_on_grab_gem_area_area_entered"]
 [connection signal="area_entered" from="CollectArea" to="." method="_on_collect_area_area_entered"]
+[connection signal="timeout" from="ShieldTimer" to="." method="_on_shield_timer_timeout"]
 
 [editable path="HurtBox"]

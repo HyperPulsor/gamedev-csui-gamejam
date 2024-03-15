@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b3rlhpi1a63xi"
+path="res://.godot/imported/Partys Cancelled - RoccoW Chiptune [No Copyright Music] [TubeRipper.cc].ogg-5dd78bd41c2c237d793886f60ec774f1.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/Sounds/Partys Cancelled - RoccoW Chiptune [No Copyright Music] [TubeRipper.cc].ogg"
+dest_files=["res://.godot/imported/Partys Cancelled - RoccoW Chiptune [No Copyright Music] [TubeRipper.cc].ogg-5dd78bd41c2c237d793886f60ec774f1.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
