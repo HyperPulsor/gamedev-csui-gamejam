@@ -1,15 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://bur0iwyidf8w1"]
+[gd_scene load_steps=4 format=3 uid="uid://bur0iwyidf8w1"]
 
-[ext_resource type="Texture2D" uid="uid://ccb6kum7nmaqm" path="res://assets/dirt_full_new.png" id="1_8oc6q"]
+[ext_resource type="Texture2D" uid="uid://ccb6kum7nmaqm" path="res://assets/dirt_full_new.png" id="1_ges7v"]
 [ext_resource type="PackedScene" uid="uid://c4u28tkf156wa" path="res://scenes/player.tscn" id="2_owyb4"]
 [ext_resource type="PackedScene" uid="uid://ci22w7ibaprq4" path="res://scenes/EnemySpawner.tscn" id="3_wj5mh"]
-[ext_resource type="PackedScene" uid="uid://pn8t3v7l3qkn" path="res://scenes/Gem.tscn" id="4_6x0wv"]
 
 [node name="GameWorld" type="Node2D"]
 
 [node name="Background" type="Sprite2D" parent="."]
 texture_repeat = 2
-texture = ExtResource("1_8oc6q")
+texture = ExtResource("1_ges7v")
 region_enabled = true
 region_rect = Rect2(-4000, -4000, 4000, 4000)
 
@@ -18,7 +17,3 @@ region_rect = Rect2(-4000, -4000, 4000, 4000)
 [node name="EnemySpawner" parent="." instance=ExtResource("3_wj5mh")]
 
 [node name="Loot" type="Node2D" parent="." groups=["loot"]]
-
-[node name="Gem" parent="." instance=ExtResource("4_6x0wv")]
-position = Vector2(-103, -21)
-exp_value = 10

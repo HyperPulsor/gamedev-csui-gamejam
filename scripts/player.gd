@@ -9,20 +9,30 @@ extends CharacterBody2D
 @onready var upgradeChoose = get_node("%UpgradeChoose")
 @onready var soundLevelUp = get_node("%LevelUpSound")
 @onready var itemOptions = preload("res://scenes/Item.tscn")
+@onready var fireballTimer = get_node("%FireballTimer")
+@onready var fireballAttackTimer = get_node("%FireballAttackTimer")
 
 @export var hp = 10
 @export var speed = 150
 
 var animation = "Idle"
 var iceSpear = preload("res://scenes/IceSpear.tscn")
+var fireball = preload("res://scenes/Fireball.tscn")
 var icespear_ammo = 0
 var icespear_baseammo = 1
 var icespear_attackspeed = 1.5
-var icespear_level = 1
+var icespear_level = 0
+
+var fireball_ammo = 0
+var fireball_baseammo = 1
+var fireball_attackspeed = 3
+var fireball_level = 1
+
 var experience = 0
 var exp_level = 1
 var exp_collected = 0
 var enemy_close = []
+var last_movement = Vector2.UP
 
 func _ready():
 	attack()
@@ -37,6 +47,10 @@ func attack():
 		iceSpearTimer.wait_time = icespear_attackspeed
 		if iceSpearTimer.is_stopped():
 			iceSpearTimer.start()
+	if fireball_level > 0:
+		fireballTimer.wait_time = fireball_attackspeed
+		if fireballTimer.is_stopped():
+			fireballTimer.start()
 
 func player_movement():
 	var x_movement = Input.get_action_strength("right") - Input.get_action_strength("left")
@@ -51,6 +65,7 @@ func player_movement():
 		else:
 			$CollisionShape2D.position.x = - 13
 	else:
+		last_movement = movement
 		animation = "Move"
 		if velocity < Vector2.ZERO:
 			$CollisionShape2D.position.x = - 2
@@ -87,6 +102,24 @@ func _on_ice_spear_attack_timer_timeout():
 			iceSpearAttackTimer.start()
 		else:
 			iceSpearAttackTimer.stop()
+			
+func _on_fireball_timer_timeout():
+	fireball_ammo += fireball_baseammo
+	fireballAttackTimer.start()
+
+
+func _on_fireball_attack_timer_timeout():
+	if fireball_ammo > 0:
+		var fireball_attack = fireball.instantiate()
+		fireball_attack.position = position
+		fireball_attack.last_movement = last_movement
+		fireball_attack.level = fireball_level
+		add_child(fireball_attack)
+		fireball_ammo -= 1
+		if fireball_ammo > 0:
+			fireballAttackTimer.start()
+		else:
+			fireballAttackTimer.stop()
 
 func get_random_target():
 	if enemy_close.size() > 0:
