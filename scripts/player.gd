@@ -13,6 +13,7 @@ extends CharacterBody2D
 @onready var fireballAttackTimer = get_node("%FireballAttackTimer")
 @onready var healthBar = get_node("%HealthBar")
 @onready var shieldLabel = get_node("%ShieldLabel")
+@onready var labelTimer = get_node("%TimerLabel")
 @onready var shieldTimer = $ShieldTimer
 
 @export var hp = 100
@@ -46,6 +47,7 @@ var spell_cooldown = 0
 var spell_size = 0
 var additional_attacks = 0
 var isShielded = false
+var time = 0
 
 func _ready():
 	attack()
@@ -283,3 +285,13 @@ func start_shield():
 func _on_shield_timer_timeout():
 	shieldLabel.text = ""
 	isShielded = false
+
+func change_time(part_time = 0):
+	time = part_time
+	var get_minutes = int(time/60.0)
+	var get_seconds = time % 60
+	if get_minutes < 10: # 1 digit
+		get_minutes = str(0, get_minutes)
+	if get_seconds < 10:
+		get_seconds = str(0, get_seconds)
+	labelTimer.text = str(get_minutes, ":", get_seconds)
