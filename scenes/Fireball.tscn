@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dueapjnrwdpm"]
 
 [ext_resource type="Texture2D" uid="uid://dmacjuum1y1wp" path="res://assets/FB500-3.png" id="1_5arh1"]
-[ext_resource type="Script" path="res://scenes/Fireball.gd" id="1_x2n4d"]
+[ext_resource type="Script" path="res://scripts/Fireball.gd" id="1_jv21b"]
 [ext_resource type="AudioStream" uid="uid://cs2cdod172dfr" path="res://assets/Sounds/8-bit-fireball-81148.ogg" id="3_qrgo5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vr12v"]
@@ -12,7 +12,7 @@ top_level = true
 scale = Vector2(0.1, 0.1)
 collision_layer = 4
 collision_mask = 0
-script = ExtResource("1_x2n4d")
+script = ExtResource("1_jv21b")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_5arh1")

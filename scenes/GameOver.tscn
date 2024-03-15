@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnmsxjymq2efr"]
+
+[ext_resource type="Script" path="res://scripts/GameOver.gd" id="1_lhbyu"]
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_lhbyu")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 639.0
+offset_bottom = 355.0
+color = Color(0.458824, 0.14902, 0.121569, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 179.0
+offset_top = 64.0
+offset_right = 461.0
+offset_bottom = 148.0
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 187.0
+offset_right = 385.0
+offset_bottom = 273.0
+text = "Restart"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

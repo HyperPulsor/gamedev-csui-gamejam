@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var exp_value = 1
+@export var experience = 1
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision: CollisionShape2D = $CollisionShape2D
@@ -14,9 +14,9 @@ var target = null
 var speed = -1
 
 func _ready():
-	if exp_value < 5:
+	if experience < 5:
 		return
-	elif exp_value < 25:
+	elif experience < 25:
 		sprite.texture = blue_gem
 	else:
 		sprite.texture = red_gem
@@ -28,10 +28,9 @@ func _physics_process(delta):
 	
 func collect():
 	sound.play()
-	collision.call_deferred("set", "disable", true)
+	collision.call_deferred("set", "disabled", true)
 	sprite.visible = false
-	return exp_value
-
+	return experience
 
 func _on_collect_sound_finished():
 	queue_free()

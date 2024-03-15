@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://btc72ayv22pdu"]
 
-[ext_resource type="Script" path="res://scenes/IceSpear.gd" id="1_dtpu4"]
+[ext_resource type="Script" path="res://scripts/IceSpear.gd" id="1_dtpu4"]
 [ext_resource type="Texture2D" uid="uid://dp43o32pmfa0r" path="res://assets/ice_spear.png" id="1_lcb5u"]
 [ext_resource type="AudioStream" uid="uid://bno0trnr7uqqd" path="res://assets/Sounds/ice.wav" id="3_kqery"]
 

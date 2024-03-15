@@ -11,17 +11,19 @@ extends CharacterBody2D
 @onready var itemOptions = preload("res://scenes/Item.tscn")
 @onready var fireballTimer = get_node("%FireballTimer")
 @onready var fireballAttackTimer = get_node("%FireballAttackTimer")
+@onready var healthBar = get_node("%HealthBar")
 
-@export var hp = 10
+@export var hp = 100
 @export var speed = 150
 
+var maxhp = 100
 var animation = "Idle"
 var iceSpear = preload("res://scenes/IceSpear.tscn")
 var fireball = preload("res://scenes/Fireball.tscn")
 var icespear_ammo = 0
 var icespear_baseammo = 1
 var icespear_attackspeed = 1.5
-var icespear_level = 0
+var icespear_level = 1
 
 var fireball_ammo = 0
 var fireball_baseammo = 1
@@ -29,18 +31,29 @@ var fireball_attackspeed = 3
 var fireball_level = 1
 
 var experience = 0
-var exp_level = 1
-var exp_collected = 0
+var experience_level = 1
+var collected_experience = 0
 var enemy_close = []
 var last_movement = Vector2.UP
+
+var collected_upgrades = []
+var upgrade_options = []
+var armor_upgrade = 0
+var speed_upgrade = 0
+var spell_cooldown = 0
+var spell_size = 0
+var additional_attacks = 0
 
 func _ready():
 	attack()
 	set_progress_bar(experience, calculate_exp_cap())
+	_on_hurt_box_hurt(0,0,0)
  
 func _physics_process(_delta):
 	sprite.play(animation)
 	player_movement()
+	if hp <= 0:
+		get_tree().change_scene_to_file("res://scenes/GameOver.tscn")
 	
 func attack():
 	if icespear_level > 0:
@@ -82,7 +95,8 @@ func player_movement():
 
 func _on_hurt_box_hurt(damage, _angle, _knockback):
 	hp -= damage
-	print(hp)
+	healthBar.max_value = maxhp
+	healthBar.value = hp 
 
 
 func _on_ice_spear_timer_timeout():
@@ -143,30 +157,29 @@ func _on_grab_gem_area_area_entered(area):
 		area.target = self
 
 func calculate_exp_cap():
-	var exp_cap = exp_level
-	if exp_level < 20:
-		exp_cap = exp_level * 5
-	elif exp_level < 40:
-		exp_cap = 95 + (exp_level-19) * 8
+	var exp_cap = experience_level
+	if experience_level < 20:
+		exp_cap = experience_level * 5
+	elif experience_level < 40:
+		exp_cap = 95 + (experience_level-19) * 8
 	else:
-		exp_cap = 255 + (exp_level-39) * 12
+		exp_cap = 255 + (experience_level-39) * 12
 	return exp_cap
 
-func calculate_exp(gem):
-	var exp_next_level = calculate_exp_cap()
-	exp_collected += gem
-	if experience + exp_collected >= exp_next_level:
-		exp_collected -= exp_next_level - experience
-		exp_level += 1
-		label.text = str("Level: ", exp_level)
+func calculate_exp(gem_exp):
+	var exp_required = calculate_exp_cap()
+	collected_experience += gem_exp
+	if experience + collected_experience >= exp_required:
+		collected_experience -= exp_required - experience
+		experience_level += 1
 		experience = 0
-		exp_next_level = calculate_exp_cap()
+		exp_required = calculate_exp_cap()
 		level_up()
-		calculate_exp(0) # handle kalo exp lebih gede
+		calculate_exp(0)
 	else:
-		experience += exp_collected
-		exp_collected = 0
-	set_progress_bar(experience, exp_next_level)
+		experience += collected_experience
+		collected_experience = 0
+	set_progress_bar(experience, exp_required)
 
 func set_progress_bar(value = 1, max_value = 100):
 	progressBar.value = value
@@ -174,26 +187,84 @@ func set_progress_bar(value = 1, max_value = 100):
 		
 func _on_collect_area_area_entered(area):
 	if area.is_in_group("loot"):
-		var gem = area.collect()
-		calculate_exp(gem)
+		var gem_exp = area.collect()
+		calculate_exp(gem_exp)
 
 func level_up():
 	soundLevelUp.play()
-	label.text = str("Level: ", exp_level)
+	label.text = str("Level: ", experience_level)
 	var tween = levelPanel.create_tween()
 	tween.tween_property(levelPanel, "position", Vector2(220,50), 0.2).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	tween.play()
 	levelPanel.visible = true
-	for i in range(3):
+	var options = 0
+	var optionsmax = 3
+	while options < optionsmax:
 		var item_choice = itemOptions.instantiate()
+		item_choice.item = get_random_upgrade()
 		upgradeChoose.add_child(item_choice)
+		options += 1
 	get_tree().paused = true
 	
 func upgrade_character(upgrade):
+	match upgrade:
+		"icespear1":
+			icespear_level = 1
+			icespear_baseammo += 1
+		"icespear2":
+			icespear_level = 2
+			icespear_baseammo += 1
+		"icespear3":
+			icespear_level = 3
+		"icespear4":
+			icespear_level = 4
+			icespear_baseammo += 2
+		"fireball1":
+			fireball_level = 1
+			fireball_baseammo += 1
+		"fireball2":
+			fireball_level = 2
+			fireball_baseammo += 1
+		"fireball3":
+			fireball_level = 3
+			fireball_attackspeed -= 0.5
+		"fireball4":
+			fireball_level = 4
+			fireball_baseammo += 1
+		"food":
+			hp += 20
+			hp = clamp(hp,0,maxhp)
 	var options = upgradeChoose.get_children()
 	for i in options:
 		i.queue_free()
+	upgrade_options.clear()
+	collected_upgrades.append(upgrade)
 	levelPanel.visible = false
 	levelPanel.position = Vector2(800, 50)
 	get_tree().paused = false
 	calculate_exp(0)
+
+func get_random_upgrade():
+	var dblist = []
+	for i in UpgradeDb.UPGRADES:
+		if i in collected_upgrades:
+			pass
+		elif i in upgrade_options:
+			pass
+		elif UpgradeDb.UPGRADES[i]["type"] == "item":
+			pass
+		elif UpgradeDb.UPGRADES[i]["prerequisite"].size() > 0:
+			var to_add = true
+			for n in UpgradeDb.UPGRADES[i]["prerequisite"]:
+				if not n in collected_upgrades:
+					to_add = false
+			if to_add:
+				dblist.append(i)
+		else:
+			dblist.append(i)
+	if dblist.size() > 0:
+		var randomitem = dblist.pick_random()
+		upgrade_options.append(randomitem)
+		return randomitem
+	else:
+		return null

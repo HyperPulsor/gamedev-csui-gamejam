@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://c4u28tkf156wa"]
+[gd_scene load_steps=29 format=3 uid="uid://c4u28tkf156wa"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_ifkea"]
 [ext_resource type="Texture2D" uid="uid://clculek1m70jn" path="res://assets/Fire vizard/Idle.png" id="1_ukfyc"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://d1sbnp7pw8p3h" path="res://assets/GUI/exp_background.png" id="5_712si"]
 [ext_resource type="Texture2D" uid="uid://dxvuj6sukwosj" path="res://assets/GUI/exp_progress.png" id="6_tl6m8"]
 [ext_resource type="AudioStream" uid="uid://dsxgs07rcajdo" path="res://assets/Sounds/level-up-enhancement-8-bit-retro-sound-effect-153002.ogg" id="7_wdbxf"]
+[ext_resource type="Texture2D" uid="uid://mhm48le55nt2" path="res://assets/LifeBarMiniUnder.png" id="8_b5kc7"]
+[ext_resource type="Texture2D" uid="uid://1oxifiorawxi" path="res://assets/LifeBarMiniProgress.png" id="9_mh3d2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_53dcv"]
 atlas = ExtResource("1_ukfyc")
@@ -221,6 +223,18 @@ text = "Level: 1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="HealthBar" type="TextureProgressBar" parent="GUI/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 304.0
+offset_top = 245.0
+offset_right = 322.0
+offset_bottom = 249.0
+scale = Vector2(2, 2)
+value = 50.0
+texture_under = ExtResource("8_b5kc7")
+texture_progress = ExtResource("9_mh3d2")
+
 [node name="LevelUp" type="Panel" parent="GUI/Control"]
 unique_name_in_owner = true
 process_mode = 2
@@ -251,6 +265,8 @@ unique_name_in_owner = true
 stream = ExtResource("7_wdbxf")
 volume_db = -2.0
 pitch_scale = 3.0
+
+[node name="DamagedSound" type="AudioStreamPlayer" parent="."]
 
 [connection signal="hurt" from="HurtBox" to="." method="_on_hurt_box_hurt"]
 [connection signal="timeout" from="Attack/IceSpearTimer" to="." method="_on_ice_spear_timer_timeout"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dfdqdkurmlb4b"]
 
 [ext_resource type="Texture2D" uid="uid://seq0alpk7my5" path="res://assets/Sounds/explosion_pixelfied.png" id="1_11bh5"]
-[ext_resource type="Script" path="res://scenes/explosion.gd" id="2_1842n"]
+[ext_resource type="Script" path="res://scripts/explosion.gd" id="2_1842n"]
 [ext_resource type="AudioStream" uid="uid://dkmb18dl4sgs0" path="res://assets/Sounds/enemy_death.ogg" id="2_ye4w1"]
 
 [sub_resource type="Animation" id="Animation_5xdwd"]

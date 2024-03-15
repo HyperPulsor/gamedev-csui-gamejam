@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ci22w7ibaprq4"]
 
-[ext_resource type="Script" path="res://scenes/EnemySpawner.gd" id="1_bda14"]
+[ext_resource type="Script" path="res://scripts/EnemySpawner.gd" id="1_bda14"]
 [ext_resource type="Script" path="res://scripts/spawn_info.gd" id="2_2ca3a"]
 [ext_resource type="PackedScene" uid="uid://dykaky6htip5k" path="res://scenes/enemy_skeleton_melee.tscn" id="2_ieaig"]
 
